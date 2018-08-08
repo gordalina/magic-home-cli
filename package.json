@@ -16,7 +16,7 @@
     "magic-home": "dist/magic-home"
   },
   "dependencies": {
-    "@gordalina/magic-home": "^0.1.0",
+    "@gordalina/magic-home": "^1.0.0",
     "babel-runtime": "^6.26.0",
     "caporal": "^0.10.0"
   },
