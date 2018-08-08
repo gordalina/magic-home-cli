@@ -1,0 +1,93 @@
+#!/usr/bin/env node
+/* eslint no-console: off */
+
+import caporal from 'caporal';
+import { Light } from '@gordalina/magic-home';
+import pjson from '../package.json';
+
+async function wrap(host, fn) {
+  const device = new Light({ host });
+  await fn(device);
+  device.release();
+}
+
+caporal
+  .version(pjson.version)
+  .command('scan', 'list all lights')
+  .option('--json', 'output the results as json', null, false)
+  .option(
+    '--timeout <milliseconds>',
+    'scan timeout (defaults to 500 ms)',
+    /[0-9]+/,
+    500,
+  )
+  .action(async (args, { timeout, json }) => {
+    const lights = await Light.scan(parseInt(timeout, 10));
+
+    if (json) {
+      return console.log(JSON.stringify(lights, null, 2));
+    }
+
+    if (!lights.length) {
+      console.log('No lights found.');
+    }
+
+    lights.map(({ model, host, id }) => (
+      console.log('Found light at %o with model %o and id=%o', host, model, id))
+    );
+  })
+
+  .command('state', 'state of a light')
+  .argument('<ip>', 'light ip address')
+  .action(async ({ ip }) => wrap(ip, async light => (
+    console.log(JSON.stringify(await light.state(), null, 2))
+  )))
+
+  .command('on', 'turn on a light')
+  .argument('<ip>', 'light ip address')
+  .action(({ ip }) => wrap(ip, async light => light.on()))
+
+  .command('off', 'turn on a light')
+  .argument('<ip>', 'light ip address')
+  .action(({ ip }) => wrap(ip, async light => light.off()))
+
+  .command('color', 'turn on a light')
+  .argument('<ip>', 'light ip address')
+  .argument('<red>', 'red (0-255)')
+  .argument('<green>', 'green (0-255)')
+  .argument('<blue>', 'blue (0-255)')
+  .argument(
+    '[brightness]',
+    'brightness (0-100), defaults to 100',
+    /[0-9]{1,3}/,
+    100,
+  )
+  .action(({
+    ip, red, green, blue, brightness,
+  }) => wrap(ip, async light => light.brightness(
+    parseInt(red, 10),
+    parseInt(green, 10),
+    parseInt(blue, 10),
+    parseInt(brightness, 10),
+  )))
+
+  .command('pattern', 'set a color pattern')
+  .argument('<ip>', 'light ip address')
+  .argument('<pattern>', 'pattern name', new RegExp(Light.patterns().join('|')))
+  .argument('<speed>', 'speed (0-255)')
+  .action(({ ip, pattern, speed }) => (
+    wrap(ip, async light => light.pattern(pattern, parseInt(speed, 10)))))
+
+  .command('patterns', 'list pattern names')
+  .option('--json', 'output the results as json', null, false)
+  .action((args, { json }) => {
+    const patterns = Light.patterns();
+
+    if (json) {
+      console.log(JSON.stringify(patterns, null, 2));
+    } else {
+      console.log(patterns.join('\n'));
+    }
+  });
+
+caporal.parse(process.argv);

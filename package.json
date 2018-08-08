@@ -1,0 +1,72 @@
+{
+  "name": "@gordalina/magic-home-cli",
+  "version": "0.0.0",
+  "description": "Magic Home lights controller CLI",
+  "repository": "github:gordalina/magic-home-cli",
+  "main": "dist/index.js",
+  "author": "Samuel Gordalina <samuel.gordalina@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bin": {
+    "magic-home": "dist/magic-home"
+  },
+  "dependencies": {
+    "@gordalina/magic-home": "^0.1.0",
+    "babel-runtime": "^6.26.0",
+    "caporal": "^0.10.0"
+  },
+  "scripts": {
+    "start": "babel-node bin/magic-home",
+    "build": "babel bin/magic-home --out-file dist/magic-home && chmod +x dist/magic-home",
+    "lint": "eslint bin",
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "release:minor": "npm version minor && npm publish && git push --follow-tags",
+    "release:major": "npm version major && npm publish && git push --follow-tags",
+    "precommit": "lint-staged",
+    "prepare": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.4.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "regenerator-runtime": "^0.12.0"
+  },
+  "##############": "Modules configuration",
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "0.10"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "node": true,
+      "jest": true
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
