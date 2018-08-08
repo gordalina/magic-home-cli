@@ -1,6 +1,6 @@
 {
   "name": "@gordalina/magic-home-cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Magic Home lights controller CLI",
   "repository": "github:gordalina/magic-home-cli",
   "main": "dist/index.js",
