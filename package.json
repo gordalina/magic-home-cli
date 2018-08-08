@@ -2,6 +2,12 @@
   "name": "@gordalina/magic-home-cli",
   "version": "0.0.1",
   "description": "Magic Home lights controller CLI",
+  "keywords": [
+    "bulb", "flux", "fluxsmartlighting", "fluxwifi",
+    "home", "iotrgb", "led", "light", "lightbulb",
+    "magic", "magichome", "smart", "strips", "wifi",
+    "cli", "command"
+  ],
   "repository": "github:gordalina/magic-home-cli",
   "main": "dist/index.js",
   "author": "Samuel Gordalina <samuel.gordalina@gmail.com>",
