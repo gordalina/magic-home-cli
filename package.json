@@ -1,6 +1,6 @@
 {
   "name": "@gordalina/magic-home-cli",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Magic Home lights controller CLI",
   "keywords": [
     "bulb",
