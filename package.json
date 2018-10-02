@@ -23,7 +23,7 @@
   "repository": "github:gordalina/magic-home-cli",
   "main": "dist/index.js",
   "author": "Samuel Gordalina <samuel.gordalina@gmail.com>",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "bin": {
     "magic-home": "dist/magic-home"
   },
